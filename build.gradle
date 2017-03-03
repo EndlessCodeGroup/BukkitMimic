@@ -1,0 +1,23 @@
+group 'ru.endlesscode'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = targetCompatibility = 1.7
+
+ext {
+    bukkitVersion = '1.8'
+}
+
+repositories {
+    mavenCentral()
+
+    maven {
+        name 'spigot-repo'
+        url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+    }
+}
+
+dependencies {
+    compile group: 'org.bukkit', name: 'bukkit', version: "$bukkitVersion-R0.1-SNAPSHOT"
+}
