@@ -9,5 +9,5 @@ import org.bukkit.plugin.java.JavaPlugin;
  * @since 1.0
  */
 public class Mimic extends JavaPlugin {
-    
+
 }

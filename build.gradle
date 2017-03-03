@@ -6,6 +6,7 @@ apply plugin: 'java'
 sourceCompatibility = targetCompatibility = 1.7
 
 ext {
+    apiVersion = '1.0'
     bukkitVersion = '1.8'
 }
 
@@ -16,8 +17,14 @@ repositories {
         name 'spigot-repo'
         url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
     }
+
+    maven {
+        name 'jitpack-repo'
+        url 'https://jitpack.io'
+    }
 }
 
 dependencies {
+    compile group: 'com.github.OsipXD', name: 'MimicAPI', version: "$apiVersion"
     compile group: 'org.bukkit', name: 'bukkit', version: "$bukkitVersion-R0.1-SNAPSHOT"
 }
