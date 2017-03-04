@@ -1,0 +1,4 @@
+name: Mimic
+main: ru.endlesscode.mimic.Mimic
+version: ${VERSION}
+author: OsipXD
