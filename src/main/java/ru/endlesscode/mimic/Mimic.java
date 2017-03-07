@@ -20,6 +20,7 @@ package ru.endlesscode.mimic;
 
 import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import ru.endlesscode.mimic.classes.PermissionsClassSystem;
 import ru.endlesscode.mimic.levels.VanillaLevelSystem;
 import ru.endlesscode.mimic.util.ClassUtil;
 import ru.endlesscode.mimic.util.MetadataAdapter;

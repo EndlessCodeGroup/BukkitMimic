@@ -1,6 +1,5 @@
 package ru.endlesscode.mimic.levels;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -8,7 +7,7 @@ import org.junit.runners.Parameterized;
 import java.util.Arrays;
 import java.util.Collection;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Osip Fatkullin
@@ -16,8 +15,6 @@ import static org.junit.Assert.*;
  */
 @RunWith(value = Parameterized.class)
 public class VanillaLevelSystemTest {
-    private VanillaLevelSystem vanillaLevelSystem;
-
     private int level;
     private int xp;
     private int xpToNextLevel;
@@ -26,11 +23,6 @@ public class VanillaLevelSystemTest {
         this.level = level;
         this.xp = xp;
         this.xpToNextLevel = xpToNextLevel;
-    }
-
-    @Before
-    public void init() {
-        this.vanillaLevelSystem = new VanillaLevelSystem();
     }
 
     @Parameterized.Parameters
@@ -51,21 +43,21 @@ public class VanillaLevelSystemTest {
 
     @Test
     public void levelToExp() throws Exception {
-        int givenXp = vanillaLevelSystem.levelToExp(level);
+        int givenXp = VanillaLevelSystem.levelToExp(level);
 
         assertEquals(xp, givenXp);
     }
 
     @Test
     public void expToLevel() throws Exception {
-        int givenLevel = (int) vanillaLevelSystem.expToLevel(xp);
+        int givenLevel = (int) VanillaLevelSystem.expToLevel(xp);
 
         assertEquals(level, givenLevel);
     }
 
     @Test
     public void getExpToReachNextLevel() {
-        int givenXp = vanillaLevelSystem.getExpToReachNextLevel(level);
+        int givenXp = VanillaLevelSystem.getExpToReachNextLevel(level);
 
         assertEquals(xpToNextLevel, givenXp);
     }

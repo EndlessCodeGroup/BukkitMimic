@@ -43,10 +43,10 @@ public class MimicClassException extends Exception {
     @Override
     public String getMessage() {
         switch (errorCode) {
-            case METADATA_NOT_FOUND:
-                return "Metadata not found in class \"" + theClass.getName() + "\".";
-            case INSTANCE_NOT_CREATED:
-                return "Cannot create instance from class \"" + theClass.getName() + "\".";
+            case METADATA_MISSING:
+                return String.format("Metadata not found in class '%s'.", theClass.getName());
+            case CANT_BE_CREATED:
+                return String.format("Cannot create instance of class '%s'.", theClass.getName());
         }
 
         return "";
@@ -56,7 +56,7 @@ public class MimicClassException extends Exception {
      * Available error codes
      */
     public enum ErrorCode {
-        METADATA_NOT_FOUND,
-        INSTANCE_NOT_CREATED
+        METADATA_MISSING,
+        CANT_BE_CREATED
     }
 }

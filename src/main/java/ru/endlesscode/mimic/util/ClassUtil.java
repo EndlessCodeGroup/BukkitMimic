@@ -61,7 +61,7 @@ public class ClassUtil {
     public static <T extends BaseSystem> MetadataAdapter getNotNullClassMeta(@NotNull Class<T> theClass) throws MimicClassException {
         Metadata meta = theClass.getAnnotation(Metadata.class);
         if (meta == null) {
-            throw new MimicClassException(theClass, MimicClassException.ErrorCode.METADATA_NOT_FOUND);
+            throw new MimicClassException(theClass, MimicClassException.ErrorCode.METADATA_MISSING);
         }
 
         return new MetadataAdapter(meta);
@@ -80,7 +80,7 @@ public class ClassUtil {
         try {
             return theClass.getConstructor().newInstance();
         } catch (ReflectiveOperationException e) {
-            throw new MimicClassException(theClass, MimicClassException.ErrorCode.INSTANCE_NOT_CREATED);
+            throw new MimicClassException(theClass, MimicClassException.ErrorCode.CANT_BE_CREATED);
         }
     }
 }

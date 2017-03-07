@@ -16,21 +16,25 @@
  * along with Mimic.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ru.endlesscode.mimic;
+package ru.endlesscode.mimic.classes;
 
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.ServicePriority;
-import ru.endlesscode.mimic.classes.ClassSystem;
+import ru.endlesscode.mimic.Metadata;
+import ru.endlesscode.mimic.SystemType;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 /**
- * Class system based on permissions
- * Ta set user class just give him permission by this pattern:
- *      - mimic.class.ClassName
+ * Class system based on permissions.
+ *
+ * <p>To set user classes just give him permission like these:
+ *      - mimic.class.ClassOne
+ *      - mimic.class.ClassTwo
+ * First of classes will be primary.
  *
  * @author Osip Fatkullin
  * @since 1.0

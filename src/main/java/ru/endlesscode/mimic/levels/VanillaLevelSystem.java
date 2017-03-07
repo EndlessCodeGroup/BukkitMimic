@@ -70,7 +70,7 @@ public class VanillaLevelSystem implements LevelSystem {
      * @param level Player level
      * @return Experience amount to reach given level from 0 exp
      */
-    protected int levelToExp(int level) {
+    protected static int levelToExp(int level) {
         if (level >= 32) {
             return (int) (4.5*level*level - 162.5*level + 2220);
         }
@@ -99,7 +99,7 @@ public class VanillaLevelSystem implements LevelSystem {
      * @param exp Experience amount
      * @return Level amount
      */
-    protected double expToLevel(long exp) {
+    protected static double expToLevel(long exp) {
         if (exp >= 1628) {
             return (Math.sqrt(72 * exp - 54215) + 325) / 18;
         }
@@ -141,7 +141,7 @@ public class VanillaLevelSystem implements LevelSystem {
      * @param level Current level
      * @return Experience from current to next level
      */
-    protected int getExpToReachNextLevel(int level) {
+    protected static int getExpToReachNextLevel(int level) {
         if (level >= 31) {
             return 9*level - 158;
         }
