@@ -1,6 +1,6 @@
 /*
  * This file is part of Mimic.
- * Copyright (C) 2017 osipf
+ * Copyright (C) 2017 Osip Fatkullin
  *
  * Mimic is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -21,10 +21,10 @@ package ru.endlesscode.mimic.system;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.jetbrains.annotations.NotNull;
+import ru.endlesscode.mimic.ref.ExistingWeakReference;
 import ru.endlesscode.mimic.system.registry.Metadata;
 import ru.endlesscode.mimic.system.registry.SystemPriority;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -44,10 +44,27 @@ import java.util.Set;
 public class PermissionsClassSystem extends ClassSystem {
     private static final String PERMISSION_PREFIX = "mimic.class.";
 
-    private final WeakReference<Player> playerRef;
+    private ExistingWeakReference<Player> playerRef;
 
-    public PermissionsClassSystem(Player player) {
-        this.playerRef = new WeakReference<>(player);
+    /**
+     * Initializes and returns copy of current system
+     *
+     * @param args Args for initialization
+     * @return Initialized system copy
+     * @throws CloneNotSupportedException If the object's class does not
+     *                  support the {@code Cloneable} interface.
+     */
+    @Override
+    public PermissionsClassSystem initializedCopy(Object... args) throws CloneNotSupportedException {
+        PermissionsClassSystem copy = this.clone();
+        Player player = (Player) args[0];
+        copy.playerRef = new ExistingWeakReference<>(player);
+        return copy;
+    }
+
+    @Override
+    protected PermissionsClassSystem clone() throws CloneNotSupportedException {
+        return (PermissionsClassSystem) super.clone();
     }
 
     /**

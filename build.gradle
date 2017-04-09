@@ -14,7 +14,7 @@ javadoc {
 }
 
 ext {
-    apiVersion = '0.2'
+    apiVersion = '0.6'
     bukkitVersion = '1.9.4'
 }
 

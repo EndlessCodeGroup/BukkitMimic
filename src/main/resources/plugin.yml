@@ -1,4 +1,5 @@
-name: Mimic
-main: ru.endlesscode.mimic.Mimic
+name: BukkitMimic
+description: API for integration with Bukkit RPG plugins
+main: ru.endlesscode.mimic.BukkitMimic
 version: ${VERSION}
 author: OsipXD
