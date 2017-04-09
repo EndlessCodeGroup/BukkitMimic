@@ -9,8 +9,12 @@ version '1.0-SNAPSHOT'
 
 sourceCompatibility = targetCompatibility = 1.7
 
+javadoc {
+    options.tags = ['apiNote:a:API Note:', 'implSpec:a:Implementation Requirements:', 'implNote:a:Implementation Note:']
+}
+
 ext {
-    apiVersion = '0.1.3'
+    apiVersion = '0.2'
     bukkitVersion = '1.9.4'
 }
 
@@ -28,30 +32,30 @@ repositories {
     }
 }
 
-configurations {
-    include
-}
-
-sourceSets {
-    main {
-        compileClasspath += configurations.include
-        runtimeClasspath += configurations.include
-    }
-
-    test {
-        compileClasspath += configurations.include
-        runtimeClasspath += configurations.include
-    }
-}
+//configurations {
+//    include
+//}
+//
+//sourceSets {
+//    main {
+//        compileClasspath += configurations.include
+//        runtimeClasspath += configurations.include
+//    }
+//
+//    test {
+//        compileClasspath += configurations.include
+//        runtimeClasspath += configurations.include
+//    }
+//}
 
 dependencies {
-    include group: 'ru.endlesscode', name: 'MimicAPI', version: "$apiVersion"
+    compile group: 'ru.endlesscode', name: 'MimicAPI', version: "$apiVersion"
     provided group: 'org.bukkit', name: 'bukkit', version: "$bukkitVersion-R0.1-SNAPSHOT"
     provided group: 'org.jetbrains', name: 'annotations', version: '15.0'
 }
 
 jar {
-    from configurations.include.collect { it.isDirectory() ? it : zipTree(it) }
+    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     from 'LICENSE'
 }
 

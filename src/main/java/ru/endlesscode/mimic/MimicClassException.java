@@ -19,6 +19,7 @@
 package ru.endlesscode.mimic;
 
 import org.jetbrains.annotations.NotNull;
+import ru.endlesscode.mimic.system.PlayerSystem;
 
 /**
  * Exceptions that throws in Mimic
@@ -27,7 +28,7 @@ import org.jetbrains.annotations.NotNull;
  * @since 1.0
  */
 public class MimicClassException extends Exception {
-    private final Class<? extends BaseSystem> theClass;
+    private final Class<? extends PlayerSystem> theClass;
     private final ErrorCode errorCode;
 
     /**
@@ -35,7 +36,7 @@ public class MimicClassException extends Exception {
      * @param theClass  Class with error
      * @param errorCode Error code of exception
      */
-    public MimicClassException(Class<? extends BaseSystem> theClass, @NotNull MimicClassException.ErrorCode errorCode) {
+    public MimicClassException(Class<? extends PlayerSystem> theClass, @NotNull MimicClassException.ErrorCode errorCode) {
         this.theClass = theClass;
         this.errorCode = errorCode;
     }
