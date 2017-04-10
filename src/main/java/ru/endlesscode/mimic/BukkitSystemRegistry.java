@@ -18,6 +18,7 @@
 
 package ru.endlesscode.mimic;
 
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
@@ -25,7 +26,7 @@ import org.bukkit.plugin.ServicesManager;
 import org.jetbrains.annotations.NotNull;
 import ru.endlesscode.mimic.system.PlayerSystem;
 import ru.endlesscode.mimic.system.registry.MetadataAdapter;
-import ru.endlesscode.mimic.system.registry.SystemNotRegisteredException;
+import ru.endlesscode.mimic.system.registry.SystemNotFoundException;
 import ru.endlesscode.mimic.system.registry.SystemPriority;
 import ru.endlesscode.mimic.system.registry.SystemRegistry;
 
@@ -67,14 +68,12 @@ public class BukkitSystemRegistry extends SystemRegistry {
      * @param priority System priority
      * @return Same service priority
      */
-    private static ServicePriority servicePriorityFromSystem(SystemPriority priority) {
+    static ServicePriority servicePriorityFromSystem(@NotNull SystemPriority priority) {
         switch (priority) {
             case LOWEST:
                 return ServicePriority.Lowest;
             case LOW:
                 return ServicePriority.Low;
-            case NORMAL:
-                return ServicePriority.Normal;
             case HIGH:
                 return ServicePriority.High;
             case HIGHEST:
@@ -85,41 +84,49 @@ public class BukkitSystemRegistry extends SystemRegistry {
     }
 
     /**
-     * Gets system assigned to specified
+     * Gets system assigned to specified bukkit player.
+     *
+     * @param systemTypeClass System type class
+     * @param player          Bukkit player
+     * @return System assigned to given player
+     * @throws SystemNotFoundException If needed system not registered
+     */
+    public @NotNull <SystemT extends PlayerSystem> SystemT getSystem(
+            @NotNull Class<SystemT> systemTypeClass,
+            Player player)
+            throws SystemNotFoundException, CloneNotSupportedException {
+        return this.getSystem(systemTypeClass, (Object) player);
+    }
+
+    /**
+     * Gets system assigned to specified player.
      *
      * @implNote
      * Use pattern Prototype to initialize new system objects. All subsystems
      * contains method {@link PlayerSystem#initializedCopy(Object...)} for this.
      *
      * @implSpec
-     * Never return {@code null}. Throw exception instead.
+     * Never return {@code null}. Throw exception instead. Also you must create
+     * public method that will use this method, and filter args.
      *
      * @param systemTypeClass System type class
      * @param args            Arguments that needed to initialize system
      * @return System assigned to player
-     * @throws SystemNotRegisteredException If needed system not registered
+     * @throws SystemNotFoundException If needed system not found in registry
      */
     @Override
     protected @NotNull <SystemT extends PlayerSystem> SystemT getSystem(
             @NotNull Class<SystemT> systemTypeClass,
             Object... args)
-            throws SystemNotRegisteredException {
+            throws SystemNotFoundException, CloneNotSupportedException {
         RegisteredServiceProvider<SystemT> systemProvider = this.servicesManager.getRegistration(systemTypeClass);
         if (systemProvider == null) {
-            throw new SystemNotRegisteredException(
+            throw new SystemNotFoundException(
                     String.format("No one system '%s' found", systemTypeClass.getSimpleName()));
         }
 
-        SystemT system;
-        try {
-            //noinspection unchecked
-            system = (SystemT) systemProvider.getProvider().initializedCopy(args);
-        } catch (CloneNotSupportedException e) {
-            throw new SystemNotRegisteredException(
-                    String.format("System '%s' can't be initialized", systemTypeClass.getSimpleName()));
-        }
-
-        return system;
+        //noinspection unchecked
+        return (SystemT) systemProvider.getProvider().initializedCopy(args);
     }
 
     /**

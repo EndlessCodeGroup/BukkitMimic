@@ -44,15 +44,13 @@ public class BukkitMimic extends JavaPlugin {
     public void onEnable() {
         log = this.getLogger();
 
-        ServicesManager sm = getServer().getServicesManager();
-        this.systemRegistry = new BukkitSystemRegistry(this, sm);
-
+        initRegistry();
         hookDefaultSystems();
     }
 
-    @Override
-    public void onDisable() {
-        this.systemRegistry.unregisterAllSubsystems();
+    private void initRegistry() {
+        ServicesManager sm = getServer().getServicesManager();
+        this.systemRegistry = new BukkitSystemRegistry(this, sm);
     }
 
     private void hookDefaultSystems() {
@@ -66,5 +64,18 @@ public class BukkitMimic extends JavaPlugin {
         } catch (SystemNotRegisteredException e) {
             log.warning(e.getMessage());
         } catch (SystemNotNeededException ignored) {}
+    }
+
+    @Override
+    public void onDisable() {
+        this.systemRegistry.unregisterAllSubsystems();
+    }
+
+    /**
+     * @return System registry
+     */
+    @SuppressWarnings("unused")
+    public SystemRegistry getSystemRegistry() {
+        return systemRegistry;
     }
 }

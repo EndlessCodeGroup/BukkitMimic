@@ -4,6 +4,8 @@ plugins {
     id 'nebula.provided-base' version '3.1.0'
 }
 
+apply from: 'jacoco.gradle'
+
 group 'ru.endlesscode'
 version '1.0-SNAPSHOT'
 
@@ -14,7 +16,6 @@ javadoc {
 }
 
 ext {
-    apiVersion = '0.6'
     bukkitVersion = '1.9.4'
 }
 
@@ -49,7 +50,7 @@ repositories {
 //}
 
 dependencies {
-    compile group: 'ru.endlesscode', name: 'MimicAPI', version: "$apiVersion"
+    compile group: 'ru.endlesscode', name: 'MimicAPI', version: '1cc35da494'
     provided group: 'org.bukkit', name: 'bukkit', version: "$bukkitVersion-R0.1-SNAPSHOT"
     provided group: 'org.jetbrains', name: 'annotations', version: '15.0'
 }
