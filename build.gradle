@@ -33,30 +33,19 @@ repositories {
     }
 }
 
-//configurations {
-//    include
-//}
-//
-//sourceSets {
-//    main {
-//        compileClasspath += configurations.include
-//        runtimeClasspath += configurations.include
-//    }
-//
-//    test {
-//        compileClasspath += configurations.include
-//        runtimeClasspath += configurations.include
-//    }
-//}
+configurations {
+    include
+}
 
 dependencies {
     compile group: 'ru.endlesscode', name: 'MimicAPI', version: '1cc35da494'
+    include group: 'ru.endlesscode', name: 'MimicAPI', version: '1cc35da494'
     provided group: 'org.bukkit', name: 'bukkit', version: "$bukkitVersion-R0.1-SNAPSHOT"
     provided group: 'org.jetbrains', name: 'annotations', version: '15.0'
 }
 
 jar {
-    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    from configurations.include.collect { it.isDirectory() ? it : zipTree(it) }
     from 'LICENSE'
 }
 

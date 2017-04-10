@@ -18,14 +18,18 @@
 
 apply plugin: 'jacoco'
 
-jacoco {
-    toolVersion = "0.7.9"
-}
-
 jacocoTestReport {
+    doFirst {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: '**/BukkitMimic**')
+        })
+    }
+
     reports {
         xml.enabled true
         csv.enabled false
         html.enabled true
     }
 }
+
+check.dependsOn jacocoTestReport
