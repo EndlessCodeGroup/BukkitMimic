@@ -19,25 +19,62 @@
 package ru.endlesscode.mimic.bukkit;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Server;
+import org.bukkit.command.SimpleCommandMap;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.*;
 import org.junit.Before;
+import org.powermock.core.MockGateway;
+import org.powermock.reflect.Whitebox;
+import ru.endlesscode.mimic.util.Log;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * @author Osip Fatkullin
  * @since 1.0
  */
 public class BukkitTest {
+    protected Server server;
+    protected Plugin plugin;
+    protected Player player;
+
     @Before
     public void setUp() {
-        if (!bukkitIsReady()) {
-            createDummies();
-        }
+        MockGateway.MOCK_STANDARD_METHODS = false;
+
+        mockServer();
+        mockPlugin();
+        mockPlayer();
+        mockBukkit();
     }
 
-    private static boolean bukkitIsReady() {
-        return Bukkit.getServer() != null;
+    private void mockServer() {
+        this.server = mock(Server.class);
+        when(this.server.getName()).thenReturn("TestBukkit");
+        when(this.server.getVersion()).thenReturn("1.0");
+        when(this.server.getBukkitVersion()).thenReturn("1.9.4");
+        when(this.server.getLogger()).thenReturn(Log.TEST_LOGGER);
+
+        ServicesManager servicesManager = new SimpleServicesManager();
+        when(this.server.getServicesManager()).thenReturn(servicesManager);
+
+        SimpleCommandMap commandMap = new SimpleCommandMap(this.server);
+        PluginManager pluginManager = new SimplePluginManager(this.server, commandMap);
+        when(this.server.getPluginManager()).thenReturn(pluginManager);
     }
 
-    private void createDummies() {
-        Bukkit.setServer(new DummyServer());
+    private void mockPlugin() {
+        this.plugin = mock(Plugin.class);
+        when(this.plugin.getServer()).thenReturn(this.server);
+    }
+
+    private void mockPlayer() {
+        this.player = mock(Player.class);
+    }
+
+    private void mockBukkit() {
+        Whitebox.setInternalState(Bukkit.class, "server", this.server);
     }
 }

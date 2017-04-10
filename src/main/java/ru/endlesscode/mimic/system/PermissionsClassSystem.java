@@ -21,7 +21,6 @@ package ru.endlesscode.mimic.system;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.jetbrains.annotations.NotNull;
-import ru.endlesscode.mimic.ref.ExistingWeakReference;
 import ru.endlesscode.mimic.system.registry.Metadata;
 import ru.endlesscode.mimic.system.registry.SystemPriority;
 
@@ -41,31 +40,8 @@ import java.util.Set;
  * @since 1.0
  */
 @Metadata(priority = SystemPriority.LOWEST)
-public class PermissionsClassSystem extends ClassSystem {
-    private static final String PERMISSION_PREFIX = "mimic.class.";
-
-    private ExistingWeakReference<Player> playerRef;
-
-    /**
-     * Initializes and returns copy of current system
-     *
-     * @param args Args for initialization
-     * @return Initialized system copy
-     * @throws CloneNotSupportedException If the object's class does not
-     *                  support the {@code Cloneable} interface.
-     */
-    @Override
-    public PermissionsClassSystem initializedCopy(Object... args) throws CloneNotSupportedException {
-        PermissionsClassSystem copy = this.clone();
-        Player player = (Player) args[0];
-        copy.playerRef = new ExistingWeakReference<>(player);
-        return copy;
-    }
-
-    @Override
-    protected PermissionsClassSystem clone() throws CloneNotSupportedException {
-        return (PermissionsClassSystem) super.clone();
-    }
+public class PermissionsClassSystem extends BukkitClassSystem {
+    static final String PERMISSION_PREFIX = "mimic.class.";
 
     /**
      * Checks player has required class
@@ -75,8 +51,8 @@ public class PermissionsClassSystem extends ClassSystem {
      */
     @Override
     public boolean hasRequiredClass(@NotNull String requiredClass) {
-        Player player = playerRef.get();
-        return player.hasPermission(PERMISSION_PREFIX + requiredClass);
+        Player player = this.playerRef.get();
+        return player.hasPermission(PERMISSION_PREFIX + requiredClass.toLowerCase());
     }
 
     /**
@@ -99,8 +75,9 @@ public class PermissionsClassSystem extends ClassSystem {
         Player player = this.playerRef.get();
         Set<PermissionAttachmentInfo> perms = player.getEffectivePermissions();
         for (PermissionAttachmentInfo perm : perms) {
+            boolean positive = perm.getValue();
             String permission = perm.getPermission();
-            if (permission.startsWith(PERMISSION_PREFIX)) {
+            if (positive && permission.startsWith(PERMISSION_PREFIX)) {
                 String theClass = permission.substring(PERMISSION_PREFIX.length());
                 matchedPermissions.add(theClass);
             }
@@ -129,6 +106,6 @@ public class PermissionsClassSystem extends ClassSystem {
      */
     @Override
     public String getName() {
-        return "Permission-based Class System";
+        return "Permission Class System";
     }
 }

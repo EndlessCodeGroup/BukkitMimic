@@ -18,59 +18,54 @@
 
 package ru.endlesscode.mimic.system;
 
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import ru.endlesscode.mimic.system.registry.Metadata;
-import ru.endlesscode.mimic.system.registry.SystemPriority;
+import ru.endlesscode.mimic.ref.ExistingWeakReference;
 
 /**
- * System that can't be initialized
+ * Class system adapted for bukkit.
  *
  * @author Osip Fatkullin
  * @since 1.0
  */
-@Metadata(priority = SystemPriority.LOWEST)
-public class NotInitializableSystem extends TestSystem {
+public abstract class BukkitClassSystem extends ClassSystem {
+    ExistingWeakReference<Player> playerRef;
+
     /**
      * Initializes and returns copy of current system
      *
      * @param args Args for initialization
      * @return Initialized system copy
      * @throws CloneNotSupportedException If the object's class does not
-     *                                    support the {@code Cloneable} interface.
+     *                  support the {@code Cloneable} interface.
      */
     @Override
-    public @NotNull PlayerSystem initializedCopy(Object... args) throws CloneNotSupportedException {
-        throw new CloneNotSupportedException("Clone not supported :(");
+    public @NotNull BukkitClassSystem initializedCopy(Object... args) throws CloneNotSupportedException {
+        BukkitClassSystem copy = this.clone();
+        Player player = (Player) args[0];
+        copy.playerRef = new ExistingWeakReference<>(player);
+        return copy;
     }
 
     /**
-     * Returns player-related object
+     * Creates and returns a copy of this object.
      *
-     * @return Player-related object
+     * @return Clone of class system
+     * @throws CloneNotSupportedException If the object's class does not
+     *                  support the {@code Cloneable} interface.
      */
     @Override
-    public @NotNull Object getHandler() {
-        return this;
+    protected BukkitClassSystem clone() throws CloneNotSupportedException {
+        return (BukkitClassSystem) super.clone();
     }
 
     /**
-     * Checks if this system is found and enabled
+     * Returns player object
      *
-     * @return {@code true} if works, otherwise {@code false}
+     * @return The Player
      */
     @Override
-    public boolean isEnabled() {
-        return false;
-    }
-
-    /**
-     * Returns the name of system.
-     *
-     * @return name of system
-     * @implNote Usually used name of the plugin that implements system.
-     */
-    @Override
-    public String getName() {
-        return "NotInitializableSystem";
+    public @NotNull Player getHandler() {
+        return this.playerRef.get();
     }
 }

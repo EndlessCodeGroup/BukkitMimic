@@ -68,7 +68,7 @@ public class BukkitSystemRegistry extends SystemRegistry {
      * @param priority System priority
      * @return Same service priority
      */
-    static ServicePriority servicePriorityFromSystem(@NotNull SystemPriority priority) {
+    static @NotNull ServicePriority servicePriorityFromSystem(@NotNull SystemPriority priority) {
         switch (priority) {
             case LOWEST:
                 return ServicePriority.Lowest;

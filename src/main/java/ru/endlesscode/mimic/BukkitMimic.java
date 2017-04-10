@@ -72,7 +72,7 @@ public class BukkitMimic extends JavaPlugin {
     }
 
     /**
-     * @return System registry
+     * @return Mimic system registry
      */
     @SuppressWarnings("unused")
     public SystemRegistry getSystemRegistry() {

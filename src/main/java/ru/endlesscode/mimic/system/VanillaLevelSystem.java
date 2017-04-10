@@ -30,33 +30,11 @@ import ru.endlesscode.mimic.system.registry.SystemPriority;
  * @since 1.0
  */
 @Metadata(priority = SystemPriority.LOWEST)
-public class VanillaLevelSystem extends LevelSystem {
+public class VanillaLevelSystem extends BukkitLevelSystem {
     private ExistingWeakReference<Player> playerRef;
 
     public VanillaLevelSystem() {
         super(VanillaConverter.getInstance());
-    }
-
-    /**
-     * Initializes and returns copy of current system
-     *
-     * @param args Args for initialization
-     * @return Initialized system copy
-     * @throws CloneNotSupportedException If the object's class does not
-     *                  support the {@code Cloneable} interface.
-     */
-    @Override
-    public VanillaLevelSystem initializedCopy(Object... args) throws CloneNotSupportedException {
-        VanillaLevelSystem copy = this.clone();
-        Player player = (Player) args[0];
-        this.playerRef = new ExistingWeakReference<>(player);
-
-        return copy;
-    }
-
-    @Override
-    protected VanillaLevelSystem clone() throws CloneNotSupportedException {
-        return (VanillaLevelSystem) super.clone();
     }
 
     /**

@@ -18,16 +18,11 @@
 
 package ru.endlesscode.mimic;
 
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.ServicesManager;
 import org.junit.Before;
 import org.junit.Test;
 import ru.endlesscode.mimic.bukkit.BukkitTest;
-import ru.endlesscode.mimic.bukkit.DummyPlayer;
-import ru.endlesscode.mimic.bukkit.DummyPlugin;
 import ru.endlesscode.mimic.system.*;
 import ru.endlesscode.mimic.system.registry.SystemNotFoundException;
 import ru.endlesscode.mimic.system.registry.SystemPriority;
@@ -40,18 +35,15 @@ import static org.junit.Assert.*;
  */
 public class BukkitSystemRegistryTest extends BukkitTest {
     private BukkitSystemRegistry systemRegistry;
-    private Player dummyPlayer;
 
     @Before
     public void setUp() {
         super.setUp();
 
-        Plugin plugin = DummyPlugin.getInstance();
-        ServicesManager servicesManager = Bukkit.getServicesManager();
+        ServicesManager servicesManager = this.server.getServicesManager();
         servicesManager.unregisterAll(plugin);
 
         this.systemRegistry = new BukkitSystemRegistry(plugin, servicesManager);
-        this.dummyPlayer = new DummyPlayer();
     }
 
     @Test
@@ -59,8 +51,8 @@ public class BukkitSystemRegistryTest extends BukkitTest {
         this.systemRegistry.registerSubsystem(new VanillaLevelSystem());
         this.systemRegistry.registerSubsystem(new PermissionsClassSystem());
 
-        LevelSystem levelSystem = this.systemRegistry.getSystem(LevelSystem.class, dummyPlayer);
-        ClassSystem classSystem = this.systemRegistry.getSystem(ClassSystem.class, dummyPlayer);
+        LevelSystem levelSystem = this.systemRegistry.getSystem(LevelSystem.class, player);
+        ClassSystem classSystem = this.systemRegistry.getSystem(ClassSystem.class, player);
 
         assertNotNull("System must be initialized", levelSystem);
         assertNotNull("System must be initialized", classSystem);
@@ -68,14 +60,14 @@ public class BukkitSystemRegistryTest extends BukkitTest {
 
     @Test(expected = SystemNotFoundException.class)
     public void testGetNotRegisteredSystemMustThrowException() throws Exception {
-        this.systemRegistry.getSystem(TestSystem.class, dummyPlayer);
+        this.systemRegistry.getSystem(TestSystem.class, player);
     }
 
     @Test(expected = CloneNotSupportedException.class)
     public void testGetNotInitializableSystemMustThrowException() throws Exception {
         this.systemRegistry.registerSubsystem(new NotInitializableSystem());
 
-        this.systemRegistry.getSystem(TestSystem.class, dummyPlayer);
+        this.systemRegistry.getSystem(TestSystem.class, player);
     }
 
     @Test
@@ -117,7 +109,7 @@ public class BukkitSystemRegistryTest extends BukkitTest {
 
     private <SystemT extends PlayerSystem> void checkSystemExistence(Class<SystemT> systemClass) throws Exception {
         try {
-            this.systemRegistry.getSystem(systemClass, dummyPlayer);
+            this.systemRegistry.getSystem(systemClass, player);
         } catch (SystemNotFoundException ignored) {
             return;
         }

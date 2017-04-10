@@ -19,38 +19,28 @@
 package ru.endlesscode.mimic.system;
 
 import org.jetbrains.annotations.NotNull;
-import ru.endlesscode.mimic.system.registry.Metadata;
-import ru.endlesscode.mimic.system.registry.SystemPriority;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * System that can't be initialized
- *
  * @author Osip Fatkullin
  * @since 1.0
  */
-@Metadata(priority = SystemPriority.LOWEST)
-public class NotInitializableSystem extends TestSystem {
+public class DummyClassSystem extends BukkitClassSystem {
     /**
-     * Initializes and returns copy of current system
+     * Gets {@code Lost} of player system
      *
-     * @param args Args for initialization
-     * @return Initialized system copy
-     * @throws CloneNotSupportedException If the object's class does not
-     *                                    support the {@code Cloneable} interface.
+     * @return {@code List} of player system names
+     * @throws IllegalStateException If player-related object not exists.
+     * @apiNote This method actual for systems which support many system for one player.
+     * If system not support - it just return {@code List} with one element.
+     * @implSpec Method shouldn't return {@code null}, but can return empty {@code List}.
+     * Also must not contain null objects.
      */
     @Override
-    public @NotNull PlayerSystem initializedCopy(Object... args) throws CloneNotSupportedException {
-        throw new CloneNotSupportedException("Clone not supported :(");
-    }
-
-    /**
-     * Returns player-related object
-     *
-     * @return Player-related object
-     */
-    @Override
-    public @NotNull Object getHandler() {
-        return this;
+    public @NotNull List<String> getClasses() {
+        return new ArrayList<>();
     }
 
     /**
@@ -71,6 +61,6 @@ public class NotInitializableSystem extends TestSystem {
      */
     @Override
     public String getName() {
-        return "NotInitializableSystem";
+        return "Dummy Class System";
     }
 }
