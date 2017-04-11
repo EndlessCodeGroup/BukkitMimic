@@ -25,7 +25,8 @@ import org.mockito.ArgumentMatchers;
 import org.powermock.reflect.Whitebox;
 import ru.endlesscode.mimic.bukkit.BukkitTest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -37,17 +38,13 @@ public class BukkitPlayerSystemTest extends BukkitTest {
     private BukkitLevelSystem levelSystem;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         super.setUp();
 
-        try {
-            this.levelSystem = mock(BukkitLevelSystem.class);
-            Whitebox.setInternalState(this.levelSystem, "converter", mock(ExpLevelConverter.class));
-            when(this.levelSystem.initializedCopy(ArgumentMatchers.any())).thenCallRealMethod();
-            when(this.levelSystem.clone()).thenCallRealMethod();
-        } catch (CloneNotSupportedException e) {
-            fail("Cloning must be supported");
-        }
+        this.levelSystem = mock(BukkitLevelSystem.class);
+        Whitebox.setInternalState(this.levelSystem, "converter", mock(ExpLevelConverter.class));
+        when(this.levelSystem.initializedCopy(ArgumentMatchers.any())).thenCallRealMethod();
+        when(this.levelSystem.clone()).thenCallRealMethod();
     }
 
     @Test

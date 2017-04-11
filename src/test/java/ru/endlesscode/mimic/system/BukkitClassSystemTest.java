@@ -24,7 +24,8 @@ import org.junit.Test;
 import org.mockito.ArgumentMatchers;
 import ru.endlesscode.mimic.bukkit.BukkitTest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -36,16 +37,12 @@ public class BukkitClassSystemTest extends BukkitTest {
     private BukkitClassSystem classSystem;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         super.setUp();
 
-        try {
-            this.classSystem = mock(BukkitClassSystem.class);
-            when(this.classSystem.initializedCopy(ArgumentMatchers.any())).thenCallRealMethod();
-            when(this.classSystem.clone()).thenCallRealMethod();
-        } catch (CloneNotSupportedException e) {
-            fail("Cloning must be supported");
-        }
+        this.classSystem = mock(BukkitClassSystem.class);
+        when(this.classSystem.initializedCopy(ArgumentMatchers.any())).thenCallRealMethod();
+        when(this.classSystem.clone()).thenCallRealMethod();
     }
 
     @Test

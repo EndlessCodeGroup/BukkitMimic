@@ -41,7 +41,7 @@ public class BukkitTest {
     protected Player player;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         MockGateway.MOCK_STANDARD_METHODS = false;
 
         mockServer();

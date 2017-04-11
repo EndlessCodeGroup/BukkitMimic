@@ -39,15 +39,11 @@ public class PermissionsClassSystemTest extends BukkitTest {
     private BukkitClassSystem classSystem;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         super.setUp();
 
-        try {
-            BukkitClassSystem permClassSystem = new PermissionsClassSystem();
-            this.classSystem = permClassSystem.initializedCopy(this.player);
-        } catch (CloneNotSupportedException e) {
-            fail("System must support cloning");
-        }
+        BukkitClassSystem permClassSystem = new PermissionsClassSystem();
+        this.classSystem = permClassSystem.initializedCopy(this.player);
     }
 
     @Test
