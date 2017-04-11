@@ -22,6 +22,7 @@ import org.bukkit.entity.Player;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
+import org.powermock.reflect.Whitebox;
 import ru.endlesscode.mimic.bukkit.BukkitTest;
 
 import static org.junit.Assert.*;
@@ -32,17 +33,18 @@ import static org.mockito.Mockito.when;
  * @author Osip Fatkullin
  * @since 1.0
  */
-public class BukkitClassSystemTest extends BukkitTest {
-    private BukkitClassSystem classSystem;
+public class BukkitPlayerSystemTest extends BukkitTest {
+    private BukkitLevelSystem levelSystem;
 
     @Before
     public void setUp() {
         super.setUp();
 
         try {
-            this.classSystem = mock(BukkitClassSystem.class);
-            when(this.classSystem.initializedCopy(ArgumentMatchers.any())).thenCallRealMethod();
-            when(this.classSystem.clone()).thenCallRealMethod();
+            this.levelSystem = mock(BukkitLevelSystem.class);
+            Whitebox.setInternalState(this.levelSystem, "converter", mock(ExpLevelConverter.class));
+            when(this.levelSystem.initializedCopy(ArgumentMatchers.any())).thenCallRealMethod();
+            when(this.levelSystem.clone()).thenCallRealMethod();
         } catch (CloneNotSupportedException e) {
             fail("Cloning must be supported");
         }
@@ -50,14 +52,15 @@ public class BukkitClassSystemTest extends BukkitTest {
 
     @Test
     public void testCloneMustBeNotSameObject() throws Exception {
-        BukkitClassSystem copy = this.classSystem.clone();
+        BukkitLevelSystem copy = this.levelSystem.clone();
 
-        assertNotSame(this.classSystem, copy);
+        assertNotSame(this.levelSystem, copy);
+        assertSame(this.levelSystem.converter, copy.converter);
     }
 
     @Test
     public void testInitializedCopyMustHaveRightHandler() throws Exception {
-        BukkitClassSystem copy = this.classSystem.initializedCopy(this.player);
+        BukkitLevelSystem copy = this.levelSystem.initializedCopy(this.player);
         when(copy.getHandler()).thenCallRealMethod();
 
         Player handler = copy.getHandler();

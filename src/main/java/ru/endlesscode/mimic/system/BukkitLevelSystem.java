@@ -34,7 +34,7 @@ public abstract class BukkitLevelSystem extends LevelSystem {
      *
      * @param converter Converter
      */
-    protected BukkitLevelSystem(@NotNull ExpLevelConverter converter) {
+    BukkitLevelSystem(@NotNull ExpLevelConverter converter) {
         super(converter);
     }
 
