@@ -19,7 +19,6 @@
 package ru.endlesscode.mimic.system;
 
 import org.bukkit.entity.Player;
-import ru.endlesscode.mimic.ref.ExistingWeakReference;
 import ru.endlesscode.mimic.system.registry.Metadata;
 import ru.endlesscode.mimic.system.registry.SystemPriority;
 
@@ -31,8 +30,6 @@ import ru.endlesscode.mimic.system.registry.SystemPriority;
  */
 @Metadata(priority = SystemPriority.LOWEST)
 public class VanillaLevelSystem extends BukkitLevelSystem {
-    private ExistingWeakReference<Player> playerRef;
-
     public VanillaLevelSystem() {
         super(VanillaConverter.getInstance());
     }
@@ -107,11 +104,42 @@ public class VanillaLevelSystem extends BukkitLevelSystem {
     public void setExp(int newExperience) {
         int level = getLevel();
         int expToNextLevel = converter.getExpToReachNextLevel(level);
-        int allowedExperience = Math.max(0, newExperience);
-        allowedExperience = Math.min(allowedExperience - 1, expToNextLevel);
+        float allowedExperience = Math.max(0, newExperience);
+        allowedExperience = Math.min(allowedExperience, expToNextLevel);
 
         Player player = playerRef.get();
         player.setExp(allowedExperience / expToNextLevel);
+    }
+
+    /**
+     * Gets player's current fractional XP
+     *
+     * @apiNote
+     * This is a percentage value. 0 is "no progress" and 1 is "next level".
+     *
+     * @return Current fractional XP.
+     */
+    public double getFractionalExp() {
+        Player player = playerRef.get();
+        return player.getExp();
+    }
+
+    /**
+     * Sets player's current fractional XP
+     *
+     * @apiNote
+     * This is a percentage value. 0 is "no progress" and 1 is "next level".
+     *
+     * @param fractionalExp Fractional XP value between 0 ans 1.
+     */
+    @Override
+    public void setFractionalExp(double fractionalExp) {
+        Player player = playerRef.get();
+
+        float allowedExp = Math.min(1, (float) fractionalExp);
+        allowedExp = Math.max(0, allowedExp);
+
+        player.setExp(allowedExp);
     }
 
     /**
