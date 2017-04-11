@@ -52,7 +52,7 @@ class MimicTestLogFormatter extends Formatter {
         return messageBuilder.toString();
     }
 
-    public void appendExceptionStackTrace(StringBuilder messageBuilder, Throwable exception) {
+    private void appendExceptionStackTrace(StringBuilder messageBuilder, Throwable exception) {
         StringWriter exceptionWriter = new StringWriter();
         exception.printStackTrace(new PrintWriter(exceptionWriter));
         messageBuilder.append(exceptionWriter);
