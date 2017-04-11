@@ -20,27 +20,62 @@ package ru.endlesscode.mimic.system;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+
+import java.util.Arrays;
+import java.util.Collection;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Osip Fatkullin
  * @since 1.0
  */
+@RunWith(Parameterized.class)
 public class VanillaConverterTest {
+    @Parameterized.Parameters
+    public static Collection<Object[]> data() {
+        return Arrays.asList(new Object[][] {
+                {0, 0, 7},
+                {7, 1, 9},
+                {315, 15, 37},
+                {352, 16, 42},
+                {1395, 30, 112},
+                {1507, 31, 121},
+                {2727, 39, 193}
+        });
+    }
+
+    private final int exp;
+    private final int level;
+    private final int expToNext;
+
+    private VanillaConverter converter;
+
+    public VanillaConverterTest(int exp, int level, int expToNext) {
+        this.exp = exp;
+        this.level = level;
+        this.expToNext = expToNext;
+    }
+
     @Before
     public void setUp() throws Exception {
-
+        this.converter = VanillaConverter.getInstance();
     }
 
     @Test
-    public void expToLevel() throws Exception {
+    public void testExpToLevel() throws Exception {
+        assertEquals(this.level, this.converter.expToFullLevel(exp));
     }
 
     @Test
-    public void levelToExp() throws Exception {
+    public void testLevelToExp() throws Exception {
+        assertEquals(this.exp, this.converter.levelToExp(level));
     }
 
     @Test
     public void getExpToReachNextLevel() throws Exception {
+        assertEquals(this.expToNext, this.converter.getExpToReachNextLevel(level));
     }
-
 }
