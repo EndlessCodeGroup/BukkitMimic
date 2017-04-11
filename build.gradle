@@ -37,7 +37,7 @@ ext {
     bukkitVersion = '1.9.4'
     mockitoVersion = '2.7.22'
     powermockVersion = '1.7.0RC4'
-    apiVersion = 'b64f62ccd1'
+    apiVersion = '1.0'
 }
 
 repositories {
