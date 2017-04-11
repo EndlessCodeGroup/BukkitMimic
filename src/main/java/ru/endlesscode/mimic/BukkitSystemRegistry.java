@@ -69,18 +69,8 @@ public class BukkitSystemRegistry extends SystemRegistry {
      * @return Same service priority
      */
     static @NotNull ServicePriority servicePriorityFromSystem(@NotNull SystemPriority priority) {
-        switch (priority) {
-            case LOWEST:
-                return ServicePriority.Lowest;
-            case LOW:
-                return ServicePriority.Low;
-            case HIGH:
-                return ServicePriority.High;
-            case HIGHEST:
-                return ServicePriority.Highest;
-            default:
-                return ServicePriority.Normal;
-        }
+        int priorityIndex = priority.ordinal();
+        return ServicePriority.values()[priorityIndex];
     }
 
     /**
@@ -91,6 +81,7 @@ public class BukkitSystemRegistry extends SystemRegistry {
      * @return System assigned to given player
      * @throws SystemNotFoundException If needed system not registered
      */
+    @SuppressWarnings("WeakerAccess")
     public @NotNull <SystemT extends PlayerSystem> SystemT getSystem(
             @NotNull Class<SystemT> systemTypeClass,
             Player player)

@@ -21,7 +21,7 @@ apply plugin: 'jacoco'
 jacocoTestReport {
     doFirst {
         classDirectories = files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: '**/BukkitMimic**')
+            fileTree(dir: it, exclude: '**/BukkitMimic.**')
         })
     }
 

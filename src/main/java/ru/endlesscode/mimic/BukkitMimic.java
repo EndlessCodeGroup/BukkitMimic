@@ -73,7 +73,7 @@ public class BukkitMimic extends JavaPlugin {
     /**
      * @return Mimic system registry
      */
-    @SuppressWarnings("WeakerAccess")
+    @SuppressWarnings({"WeakerAccess", "unused"})
     public BukkitSystemRegistry getSystemRegistry() {
         return systemRegistry;
     }
