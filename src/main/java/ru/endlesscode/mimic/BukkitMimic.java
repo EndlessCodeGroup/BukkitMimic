@@ -25,7 +25,6 @@ import ru.endlesscode.mimic.system.PlayerSystem;
 import ru.endlesscode.mimic.system.VanillaLevelSystem;
 import ru.endlesscode.mimic.system.registry.SystemNotNeededException;
 import ru.endlesscode.mimic.system.registry.SystemNotRegisteredException;
-import ru.endlesscode.mimic.system.registry.SystemRegistry;
 
 import java.util.logging.Logger;
 
@@ -38,18 +37,18 @@ import java.util.logging.Logger;
 public class BukkitMimic extends JavaPlugin {
     private static Logger log;
 
-    private SystemRegistry systemRegistry;
+    private BukkitSystemRegistry systemRegistry;
 
     @Override
     public void onEnable() {
         log = this.getLogger();
 
-        initRegistry();
-        hookDefaultSystems();
+        this.initRegistry();
+        this.hookDefaultSystems();
     }
 
     private void initRegistry() {
-        ServicesManager sm = getServer().getServicesManager();
+        ServicesManager sm = this.getServer().getServicesManager();
         this.systemRegistry = new BukkitSystemRegistry(this, sm);
     }
 
@@ -74,8 +73,8 @@ public class BukkitMimic extends JavaPlugin {
     /**
      * @return Mimic system registry
      */
-    @SuppressWarnings("unused")
-    public SystemRegistry getSystemRegistry() {
+    @SuppressWarnings("WeakerAccess")
+    public BukkitSystemRegistry getSystemRegistry() {
         return systemRegistry;
     }
 }
