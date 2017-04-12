@@ -2,7 +2,7 @@
 
 [![license](https://img.shields.io/github/license/EndlessCodeGroup/BukkitMimic.svg)](https://choosealicense.com/licenses/lgpl-3.0/)
 
-![Logo](https://cloud.endlesscode.ru/index.php/apps/files_sharing/ajax/publicpreview.php?x=1920&y=482&a=true&file=images/bukkit-text-logo.png&t=xKLWe4aJm3tmyNZ&scalingup=0)
+[![Logo](https://cloud.endlesscode.ru/index.php/apps/files_sharing/ajax/publicpreview.php?x=1920&y=482&a=true&file=images/bukkit-text-logo.png&t=xKLWe4aJm3tmyNZ&scalingup=0&random=1)](#)
 
 Implementation of [MimicAPI](https://github.com/EndlessCodeGroup/MimicAPI) for Bukkit.
 
