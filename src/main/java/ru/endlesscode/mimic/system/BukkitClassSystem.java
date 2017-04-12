@@ -29,7 +29,8 @@ import ru.endlesscode.mimic.ref.ExistingWeakReference;
  * @since 1.0
  */
 public abstract class BukkitClassSystem extends ClassSystem {
-    ExistingWeakReference<Player> playerRef;
+    @SuppressWarnings("WeakerAccess")
+    protected ExistingWeakReference<Player> playerRef;
 
     /**
      * Initializes and returns copy of current system

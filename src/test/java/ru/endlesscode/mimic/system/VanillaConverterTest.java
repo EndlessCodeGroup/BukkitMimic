@@ -34,6 +34,12 @@ import static org.junit.Assert.assertEquals;
  */
 @RunWith(Parameterized.class)
 public class VanillaConverterTest {
+    private final int exp;
+    private final int level;
+    private final int expToNext;
+
+    private VanillaConverter converter;
+
     @Parameterized.Parameters
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][] {
@@ -46,12 +52,6 @@ public class VanillaConverterTest {
                 {2727, 39, 193}
         });
     }
-
-    private final int exp;
-    private final int level;
-    private final int expToNext;
-
-    private VanillaConverter converter;
 
     public VanillaConverterTest(int exp, int level, int expToNext) {
         this.exp = exp;

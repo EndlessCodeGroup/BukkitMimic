@@ -27,7 +27,8 @@ import ru.endlesscode.mimic.ref.ExistingWeakReference;
  * @since 1.0
  */
 public abstract class BukkitLevelSystem extends LevelSystem {
-    ExistingWeakReference<Player> playerRef;
+    @SuppressWarnings("WeakerAccess")
+    protected ExistingWeakReference<Player> playerRef;
 
     /**
      * Constructor that initialize converter.

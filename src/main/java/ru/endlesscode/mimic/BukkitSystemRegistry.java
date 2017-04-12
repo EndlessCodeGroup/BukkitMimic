@@ -18,6 +18,7 @@
 
 package ru.endlesscode.mimic;
 
+import com.google.common.annotations.VisibleForTesting;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -68,6 +69,7 @@ public class BukkitSystemRegistry extends SystemRegistry {
      * @param priority System priority
      * @return Same service priority
      */
+    @VisibleForTesting
     static @NotNull ServicePriority servicePriorityFromSystem(@NotNull SystemPriority priority) {
         int priorityIndex = priority.ordinal();
         return ServicePriority.values()[priorityIndex];
