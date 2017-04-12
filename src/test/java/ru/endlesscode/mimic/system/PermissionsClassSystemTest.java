@@ -107,7 +107,7 @@ public class PermissionsClassSystemTest extends BukkitTest {
     }
 
     @Test
-    public void testNameAlways_PermissionClassSystem() throws Exception {
+    public void testNameAlwaysReturnPermissionClassSystem() throws Exception {
         assertEquals("Permission Class System", this.classSystem.getName());
     }
 }
