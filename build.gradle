@@ -25,7 +25,7 @@ apply from: 'jacoco.gradle'
 
 group 'ru.endlesscode'
 description 'API for integration with Bukkit RPG plugins'
-version '1.1.0'
+version '1.1.1'
 
 javadoc {
     options.tags = ['apiNote:a:API Note:', 'implSpec:a:Implementation Requirements:', 'implNote:a:Implementation Note:']
@@ -61,8 +61,10 @@ configurations {
 }
 
 dependencies {
-    compile group: 'ru.endlesscode', name: 'MimicAPI', version: "$apiVersion"
-    include group: 'ru.endlesscode', name: 'MimicAPI', version: "$apiVersion"
+    compile(group: 'ru.endlesscode', name: 'MimicAPI', version: "$apiVersion")
+    include(group: 'ru.endlesscode', name: 'MimicAPI', version: "$apiVersion") {
+        exclude group: 'org.jetbrains'
+    }
     provided group: 'org.jetbrains', name: 'annotations', version: '15.0'
     testCompile group: 'org.mockito', name: 'mockito-core', version: "$mockitoVersion"
     testCompile group: 'org.powermock', name: 'powermock-module-junit4', version: "$powermockVersion"
