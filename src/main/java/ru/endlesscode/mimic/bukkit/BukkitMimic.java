@@ -37,6 +37,7 @@ import java.util.logging.Logger;
  * @since 1.0
  */
 public class BukkitMimic extends JavaPlugin {
+    private static BukkitMimic instance;
     private static Logger log;
 
     private BukkitSystemRegistry systemRegistry;
@@ -50,6 +51,7 @@ public class BukkitMimic extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        instance = this;
         log = this.getLogger();
 
         this.initRegistry();
@@ -81,8 +83,8 @@ public class BukkitMimic extends JavaPlugin {
     /**
      * @return Mimic system registry
      */
-    @SuppressWarnings({"unused"})
-    public BukkitSystemRegistry getSystemRegistry() {
-        return systemRegistry;
+    @SuppressWarnings({"unused", "WeakerAccess"})
+    public static BukkitSystemRegistry getSystemRegistry() {
+        return instance.systemRegistry;
     }
 }
