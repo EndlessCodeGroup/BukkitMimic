@@ -19,6 +19,7 @@
 package ru.endlesscode.mimic.system;
 
 import org.jetbrains.annotations.NotNull;
+import ru.endlesscode.mimic.api.system.ExpLevelConverter;
 
 /**
  * Converter for vanilla experience system

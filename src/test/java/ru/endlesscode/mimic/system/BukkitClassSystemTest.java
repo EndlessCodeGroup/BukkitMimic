@@ -19,12 +19,11 @@
 package ru.endlesscode.mimic.system;
 
 import org.bukkit.entity.Player;
-import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentMatchers;
+import org.powermock.reflect.Whitebox;
+import ru.endlesscode.mimic.api.ref.ExistingWeakReference;
 import ru.endlesscode.mimic.bukkit.BukkitTest;
 
-import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -34,30 +33,13 @@ import static org.mockito.Mockito.when;
  * @since 1.0
  */
 public class BukkitClassSystemTest extends BukkitTest {
-    private BukkitClassSystem classSystem;
-
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();
-
-        this.classSystem = mock(BukkitClassSystem.class);
-        when(this.classSystem.initializedCopy(ArgumentMatchers.any())).thenCallRealMethod();
-        when(this.classSystem.clone()).thenCallRealMethod();
-    }
-
-    @Test
-    public void testCloneMustBeNotSameObject() throws Exception {
-        BukkitClassSystem copy = this.classSystem.clone();
-
-        assertNotSame(this.classSystem, copy);
-    }
-
     @Test
     public void testInitializedCopyMustHaveRightHandler() throws Exception {
-        BukkitClassSystem copy = this.classSystem.initializedCopy(this.player);
-        when(copy.getHandler()).thenCallRealMethod();
+        BukkitClassSystem classSystem = mock(BukkitClassSystem.class);
+        Whitebox.setInternalState(classSystem, "playerRef", new ExistingWeakReference<>(this.player));
+        when(classSystem.getHandler()).thenCallRealMethod();
 
-        Player handler = copy.getHandler();
+        Player handler = classSystem.getHandler();
         assertSame(this.player, handler);
     }
 }

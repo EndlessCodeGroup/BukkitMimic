@@ -20,7 +20,8 @@ package ru.endlesscode.mimic.system;
 
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import ru.endlesscode.mimic.ref.ExistingWeakReference;
+import ru.endlesscode.mimic.api.ref.ExistingWeakReference;
+import ru.endlesscode.mimic.api.system.ClassSystem;
 
 /**
  * Class system adapted for bukkit.
@@ -30,34 +31,15 @@ import ru.endlesscode.mimic.ref.ExistingWeakReference;
  */
 public abstract class BukkitClassSystem extends ClassSystem {
     @SuppressWarnings("WeakerAccess")
-    protected ExistingWeakReference<Player> playerRef;
+    protected final ExistingWeakReference<Player> playerRef;
 
     /**
-     * Initializes and returns copy of current system
+     * Constructor that initialize player.
      *
-     * @param args Args for initialization
-     * @return Initialized system copy
-     * @throws CloneNotSupportedException If the object's class does not
-     *                  support the {@code Cloneable} interface.
+     * @param player The player
      */
-    @Override
-    public @NotNull BukkitClassSystem initializedCopy(Object... args) throws CloneNotSupportedException {
-        BukkitClassSystem copy = this.clone();
-        Player player = (Player) args[0];
-        copy.playerRef = new ExistingWeakReference<>(player);
-        return copy;
-    }
-
-    /**
-     * Creates and returns a copy of this object.
-     *
-     * @return Clone of class system
-     * @throws CloneNotSupportedException If the object's class does not
-     *                  support the {@code Cloneable} interface.
-     */
-    @Override
-    protected BukkitClassSystem clone() throws CloneNotSupportedException {
-        return (BukkitClassSystem) super.clone();
+    protected BukkitClassSystem(@NotNull Player player) {
+        playerRef = new ExistingWeakReference<>(player);
     }
 
     /**

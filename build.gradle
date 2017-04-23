@@ -34,7 +34,7 @@ javadoc {
 ext {
     mockitoVersion = '2.7.+'
     powermockVersion = '1.7.+'
-    apiVersion = '1.1.0-rc.1'
+    apiVersion = '441be2879f'
 }
 
 bukkit {

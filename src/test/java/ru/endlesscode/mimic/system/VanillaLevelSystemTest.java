@@ -37,8 +37,7 @@ public class VanillaLevelSystemTest extends BukkitTest {
     public void setUp() throws Exception {
         super.setUp();
 
-        VanillaLevelSystem levelSystem = new VanillaLevelSystem();
-        this.levelSystem = levelSystem.initializedCopy(this.player);
+        this.levelSystem = (VanillaLevelSystem) VanillaLevelSystem.FACTORY.get(this.player);
     }
 
     @Test

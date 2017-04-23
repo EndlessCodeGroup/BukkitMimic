@@ -19,8 +19,10 @@
 package ru.endlesscode.mimic.system;
 
 import org.bukkit.entity.Player;
-import ru.endlesscode.mimic.system.registry.Metadata;
-import ru.endlesscode.mimic.system.registry.SystemPriority;
+import org.jetbrains.annotations.NotNull;
+import ru.endlesscode.mimic.api.system.LevelSystem;
+import ru.endlesscode.mimic.api.system.registry.Metadata;
+import ru.endlesscode.mimic.api.system.registry.SystemPriority;
 
 /**
  * Vanilla experience bar system
@@ -30,8 +32,11 @@ import ru.endlesscode.mimic.system.registry.SystemPriority;
  */
 @Metadata(priority = SystemPriority.LOWEST)
 public class VanillaLevelSystem extends BukkitLevelSystem {
-    public VanillaLevelSystem() {
-        super(VanillaConverter.getInstance());
+    public static final LevelSystem.Factory FACTORY =
+            new LevelSystem.Factory(playerObj -> new VanillaLevelSystem((Player) playerObj));
+
+    public VanillaLevelSystem(@NotNull Player player) {
+        super(VanillaConverter.getInstance(), player);
     }
 
     /**

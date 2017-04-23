@@ -20,11 +20,12 @@ package ru.endlesscode.mimic;
 
 import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import ru.endlesscode.mimic.api.system.PlayerSystem;
+import ru.endlesscode.mimic.api.system.SystemFactory;
+import ru.endlesscode.mimic.api.system.registry.SystemNotNeededException;
+import ru.endlesscode.mimic.api.system.registry.SystemNotRegisteredException;
 import ru.endlesscode.mimic.system.PermissionsClassSystem;
-import ru.endlesscode.mimic.system.PlayerSystem;
 import ru.endlesscode.mimic.system.VanillaLevelSystem;
-import ru.endlesscode.mimic.system.registry.SystemNotNeededException;
-import ru.endlesscode.mimic.system.registry.SystemNotRegisteredException;
 
 import java.util.logging.Logger;
 
@@ -53,13 +54,13 @@ public class BukkitMimic extends JavaPlugin {
     }
 
     private void hookDefaultSystems() {
-        this.hookSystem(new VanillaLevelSystem());
-        this.hookSystem(new PermissionsClassSystem());
+        this.hookSystem(VanillaLevelSystem.class, VanillaLevelSystem.FACTORY);
+        this.hookSystem(PermissionsClassSystem.class, PermissionsClassSystem.FACTORY);
     }
 
-    private void hookSystem(PlayerSystem system) {
+    private <T extends PlayerSystem> void hookSystem(Class<? extends T> system, SystemFactory<T> factory) {
         try {
-            this.systemRegistry.registerSubsystem(system);
+            this.systemRegistry.registerSubsystem(system, factory);
         } catch (SystemNotRegisteredException e) {
             log.warning(e.getMessage());
         } catch (SystemNotNeededException ignored) {}

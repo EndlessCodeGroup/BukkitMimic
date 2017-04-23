@@ -42,8 +42,7 @@ public class PermissionsClassSystemTest extends BukkitTest {
     public void setUp() throws Exception {
         super.setUp();
 
-        BukkitClassSystem permClassSystem = new PermissionsClassSystem();
-        this.classSystem = permClassSystem.initializedCopy(this.player);
+        this.classSystem = (BukkitClassSystem) PermissionsClassSystem.FACTORY.get(this.player);
     }
 
     @Test

@@ -18,6 +18,8 @@
 
 package ru.endlesscode.mimic.system;
 
+import ru.endlesscode.mimic.api.system.PlayerSystem;
+
 /**
  * System for tests
  *
