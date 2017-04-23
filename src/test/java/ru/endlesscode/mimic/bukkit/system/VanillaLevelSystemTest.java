@@ -16,10 +16,10 @@
  * along with BukkitMimic.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ru.endlesscode.mimic.system;
+package ru.endlesscode.mimic.bukkit.system;
 
 import org.junit.Test;
-import ru.endlesscode.mimic.bukkit.BukkitTest;
+import ru.endlesscode.mimic.bukkit.BukkitTestBase;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -30,7 +30,7 @@ import static org.mockito.Mockito.when;
  * @author Osip Fatkullin
  * @since 1.0
  */
-public class VanillaLevelSystemTest extends BukkitTest {
+public class VanillaLevelSystemTest extends BukkitTestBase {
     private BukkitLevelSystem levelSystem;
 
     @Override

@@ -26,7 +26,7 @@ import org.bukkit.plugin.*;
 import org.junit.Before;
 import org.powermock.core.MockGateway;
 import org.powermock.reflect.Whitebox;
-import ru.endlesscode.mimic.util.Log;
+import ru.endlesscode.mimic.bukkit.util.Log;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -35,7 +35,7 @@ import static org.mockito.Mockito.when;
  * @author Osip Fatkullin
  * @since 1.0
  */
-public class BukkitTest {
+public class BukkitTestBase {
     protected Server server;
     protected Plugin plugin;
     protected Player player;

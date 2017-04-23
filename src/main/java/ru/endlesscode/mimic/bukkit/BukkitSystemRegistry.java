@@ -16,7 +16,7 @@
  * along with BukkitMimic.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ru.endlesscode.mimic;
+package ru.endlesscode.mimic.bukkit;
 
 import com.google.common.annotations.VisibleForTesting;
 import org.bukkit.plugin.Plugin;

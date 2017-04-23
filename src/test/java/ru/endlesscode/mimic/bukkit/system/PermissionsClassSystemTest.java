@@ -16,12 +16,12 @@
  * along with BukkitMimic.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ru.endlesscode.mimic.system;
+package ru.endlesscode.mimic.bukkit.system;
 
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.junit.Before;
 import org.junit.Test;
-import ru.endlesscode.mimic.bukkit.BukkitTest;
+import ru.endlesscode.mimic.bukkit.BukkitTestBase;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -35,7 +35,7 @@ import static org.mockito.Mockito.when;
  * @author Osip Fatkullin
  * @since 1.0
  */
-public class PermissionsClassSystemTest extends BukkitTest {
+public class PermissionsClassSystemTest extends BukkitTestBase {
     private BukkitClassSystem classSystem;
 
     @Before

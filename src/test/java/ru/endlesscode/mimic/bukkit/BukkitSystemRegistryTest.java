@@ -16,7 +16,7 @@
  * along with BukkitMimic.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ru.endlesscode.mimic;
+package ru.endlesscode.mimic.bukkit;
 
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.ServicesManager;
@@ -28,10 +28,9 @@ import ru.endlesscode.mimic.api.system.PlayerSystem;
 import ru.endlesscode.mimic.api.system.SystemFactory;
 import ru.endlesscode.mimic.api.system.registry.SystemNotFoundException;
 import ru.endlesscode.mimic.api.system.registry.SystemPriority;
-import ru.endlesscode.mimic.bukkit.BukkitTest;
-import ru.endlesscode.mimic.system.PermissionsClassSystem;
-import ru.endlesscode.mimic.system.TestSystem;
-import ru.endlesscode.mimic.system.VanillaLevelSystem;
+import ru.endlesscode.mimic.bukkit.system.PermissionsClassSystem;
+import ru.endlesscode.mimic.bukkit.system.TestSystem;
+import ru.endlesscode.mimic.bukkit.system.VanillaLevelSystem;
 
 import static org.junit.Assert.*;
 
@@ -39,7 +38,7 @@ import static org.junit.Assert.*;
  * @author Osip Fatkullin
  * @since 1.0
  */
-public class BukkitSystemRegistryTest extends BukkitTest {
+public class BukkitSystemRegistryTest extends BukkitTestBase {
     private BukkitSystemRegistry systemRegistry;
 
     @Before

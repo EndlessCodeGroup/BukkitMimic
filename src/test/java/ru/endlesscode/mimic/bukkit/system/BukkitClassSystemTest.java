@@ -16,13 +16,13 @@
  * along with BukkitMimic.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ru.endlesscode.mimic.system;
+package ru.endlesscode.mimic.bukkit.system;
 
 import org.bukkit.entity.Player;
 import org.junit.Test;
 import org.powermock.reflect.Whitebox;
 import ru.endlesscode.mimic.api.ref.ExistingWeakReference;
-import ru.endlesscode.mimic.bukkit.BukkitTest;
+import ru.endlesscode.mimic.bukkit.BukkitTestBase;
 
 import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.mock;
@@ -32,14 +32,14 @@ import static org.mockito.Mockito.when;
  * @author Osip Fatkullin
  * @since 1.0
  */
-public class BukkitLevelSystemTest extends BukkitTest {
+public class BukkitClassSystemTest extends BukkitTestBase {
     @Test
     public void testInitializedCopyMustHaveRightHandler() throws Exception {
-        BukkitLevelSystem levelSystem = mock(BukkitLevelSystem.class);
-        Whitebox.setInternalState(levelSystem, "playerRef", new ExistingWeakReference<>(this.player));
-        when(levelSystem.getHandler()).thenCallRealMethod();
+        BukkitClassSystem classSystem = mock(BukkitClassSystem.class);
+        Whitebox.setInternalState(classSystem, "playerRef", new ExistingWeakReference<>(this.player));
+        when(classSystem.getHandler()).thenCallRealMethod();
 
-        Player handler = levelSystem.getHandler();
+        Player handler = classSystem.getHandler();
         assertSame(this.player, handler);
     }
 }

@@ -16,7 +16,7 @@
  * along with BukkitMimic.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ru.endlesscode.mimic;
+package ru.endlesscode.mimic.bukkit;
 
 import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -24,8 +24,8 @@ import ru.endlesscode.mimic.api.system.PlayerSystem;
 import ru.endlesscode.mimic.api.system.SystemFactory;
 import ru.endlesscode.mimic.api.system.registry.SystemNotNeededException;
 import ru.endlesscode.mimic.api.system.registry.SystemNotRegisteredException;
-import ru.endlesscode.mimic.system.PermissionsClassSystem;
-import ru.endlesscode.mimic.system.VanillaLevelSystem;
+import ru.endlesscode.mimic.bukkit.system.PermissionsClassSystem;
+import ru.endlesscode.mimic.bukkit.system.VanillaLevelSystem;
 
 import java.util.logging.Logger;
 

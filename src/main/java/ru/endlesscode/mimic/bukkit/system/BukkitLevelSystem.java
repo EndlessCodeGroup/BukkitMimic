@@ -16,30 +16,32 @@
  * along with BukkitMimic.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ru.endlesscode.mimic.system;
+package ru.endlesscode.mimic.bukkit.system;
 
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import ru.endlesscode.mimic.api.ref.ExistingWeakReference;
-import ru.endlesscode.mimic.api.system.ClassSystem;
+import ru.endlesscode.mimic.api.system.ExpLevelConverter;
+import ru.endlesscode.mimic.api.system.LevelSystem;
 
 /**
- * Class system adapted for bukkit.
- *
- * @author Osip Fatkullin
+ * @author osipf
  * @since 1.0
  */
-public abstract class BukkitClassSystem extends ClassSystem {
+public abstract class BukkitLevelSystem extends LevelSystem {
     @SuppressWarnings("WeakerAccess")
     protected final ExistingWeakReference<Player> playerRef;
 
     /**
-     * Constructor that initialize player.
+     * Constructor that initialize converter.
      *
-     * @param player The player
+     * @param converter Converter
+     * @param player    The player
      */
-    protected BukkitClassSystem(@NotNull Player player) {
-        playerRef = new ExistingWeakReference<>(player);
+    BukkitLevelSystem(@NotNull ExpLevelConverter converter, Player player) {
+        super(converter);
+
+        this.playerRef = new ExistingWeakReference<>(player);
     }
 
     /**
@@ -49,6 +51,6 @@ public abstract class BukkitClassSystem extends ClassSystem {
      */
     @Override
     public @NotNull Player getHandler() {
-        return this.playerRef.get();
+        return playerRef.get();
     }
 }

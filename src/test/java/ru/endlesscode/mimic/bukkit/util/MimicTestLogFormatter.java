@@ -16,7 +16,7 @@
  * along with BukkitMimic.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ru.endlesscode.mimic.util;
+package ru.endlesscode.mimic.bukkit.util;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
