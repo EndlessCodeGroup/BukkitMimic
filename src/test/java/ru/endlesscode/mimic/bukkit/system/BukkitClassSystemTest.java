@@ -16,16 +16,14 @@
  * along with BukkitMimic.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ru.endlesscode.mimic.system;
+package ru.endlesscode.mimic.bukkit.system;
 
 import org.bukkit.entity.Player;
-import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentMatchers;
 import org.powermock.reflect.Whitebox;
-import ru.endlesscode.mimic.bukkit.BukkitTest;
+import ru.endlesscode.mimic.api.ref.ExistingWeakReference;
+import ru.endlesscode.mimic.bukkit.BukkitTestBase;
 
-import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -34,33 +32,14 @@ import static org.mockito.Mockito.when;
  * @author Osip Fatkullin
  * @since 1.0
  */
-public class BukkitPlayerSystemTest extends BukkitTest {
-    private BukkitLevelSystem levelSystem;
-
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();
-
-        this.levelSystem = mock(BukkitLevelSystem.class);
-        Whitebox.setInternalState(this.levelSystem, "converter", mock(ExpLevelConverter.class));
-        when(this.levelSystem.initializedCopy(ArgumentMatchers.any())).thenCallRealMethod();
-        when(this.levelSystem.clone()).thenCallRealMethod();
-    }
-
-    @Test
-    public void testCloneMustBeNotSameObject() throws Exception {
-        BukkitLevelSystem copy = this.levelSystem.clone();
-
-        assertNotSame(this.levelSystem, copy);
-        assertSame(this.levelSystem.converter, copy.converter);
-    }
-
+public class BukkitClassSystemTest extends BukkitTestBase {
     @Test
     public void testInitializedCopyMustHaveRightHandler() throws Exception {
-        BukkitLevelSystem copy = this.levelSystem.initializedCopy(this.player);
-        when(copy.getHandler()).thenCallRealMethod();
+        BukkitClassSystem classSystem = mock(BukkitClassSystem.class);
+        Whitebox.setInternalState(classSystem, "playerRef", new ExistingWeakReference<>(this.player));
+        when(classSystem.getHandler()).thenCallRealMethod();
 
-        Player handler = copy.getHandler();
+        Player handler = classSystem.getHandler();
         assertSame(this.player, handler);
     }
 }

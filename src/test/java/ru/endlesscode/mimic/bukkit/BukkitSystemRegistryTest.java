@@ -16,16 +16,21 @@
  * along with BukkitMimic.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ru.endlesscode.mimic;
+package ru.endlesscode.mimic.bukkit;
 
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.ServicesManager;
 import org.junit.Before;
 import org.junit.Test;
-import ru.endlesscode.mimic.bukkit.BukkitTest;
-import ru.endlesscode.mimic.system.*;
-import ru.endlesscode.mimic.system.registry.SystemNotFoundException;
-import ru.endlesscode.mimic.system.registry.SystemPriority;
+import ru.endlesscode.mimic.api.system.ClassSystem;
+import ru.endlesscode.mimic.api.system.LevelSystem;
+import ru.endlesscode.mimic.api.system.PlayerSystem;
+import ru.endlesscode.mimic.api.system.SystemFactory;
+import ru.endlesscode.mimic.api.system.registry.SystemNotFoundException;
+import ru.endlesscode.mimic.api.system.registry.SystemPriority;
+import ru.endlesscode.mimic.bukkit.system.PermissionsClassSystem;
+import ru.endlesscode.mimic.bukkit.system.TestSystem;
+import ru.endlesscode.mimic.bukkit.system.VanillaLevelSystem;
 
 import static org.junit.Assert.*;
 
@@ -33,7 +38,7 @@ import static org.junit.Assert.*;
  * @author Osip Fatkullin
  * @since 1.0
  */
-public class BukkitSystemRegistryTest extends BukkitTest {
+public class BukkitSystemRegistryTest extends BukkitTestBase {
     private BukkitSystemRegistry systemRegistry;
 
     @Before
@@ -48,26 +53,19 @@ public class BukkitSystemRegistryTest extends BukkitTest {
 
     @Test
     public void testRegisterRightSubsystemMustBeSuccessful() throws Exception {
-        this.systemRegistry.registerSubsystem(new VanillaLevelSystem());
-        this.systemRegistry.registerSubsystem(new PermissionsClassSystem());
+        this.systemRegistry.registerSubsystem(VanillaLevelSystem.class, VanillaLevelSystem.FACTORY);
+        this.systemRegistry.registerSubsystem(PermissionsClassSystem.class, PermissionsClassSystem.FACTORY);
 
-        LevelSystem levelSystem = this.systemRegistry.getSystem(LevelSystem.class, player);
-        ClassSystem classSystem = this.systemRegistry.getSystem(ClassSystem.class, player);
+        SystemFactory<LevelSystem> levelSystemFactory = this.systemRegistry.getSystemFactory(LevelSystem.class);
+        SystemFactory<ClassSystem> classSystemFactory = this.systemRegistry.getSystemFactory(ClassSystem.class);
 
-        assertNotNull("System must be initialized", levelSystem);
-        assertNotNull("System must be initialized", classSystem);
+        assertNotNull("System must be initialized", levelSystemFactory);
+        assertNotNull("System must be initialized", classSystemFactory);
     }
 
     @Test(expected = SystemNotFoundException.class)
     public void testGetNotRegisteredSystemMustThrowException() throws Exception {
-        this.systemRegistry.getSystem(TestSystem.class, player);
-    }
-
-    @Test(expected = CloneNotSupportedException.class)
-    public void testGetNotInitializableSystemMustThrowException() throws Exception {
-        this.systemRegistry.registerSubsystem(new NotInitializableSystem());
-
-        this.systemRegistry.getSystem(TestSystem.class, player);
+        this.systemRegistry.getSystemFactory(TestSystem.class);
     }
 
     @Test
@@ -81,8 +79,8 @@ public class BukkitSystemRegistryTest extends BukkitTest {
 
     @Test
     public void testUnregisterAllSubsystemsMustBeSuccessful() throws Exception {
-        this.systemRegistry.registerSubsystem(new VanillaLevelSystem());
-        this.systemRegistry.registerSubsystem(new PermissionsClassSystem());
+        this.systemRegistry.registerSubsystem(VanillaLevelSystem.class, VanillaLevelSystem.FACTORY);
+        this.systemRegistry.registerSubsystem(PermissionsClassSystem.class, PermissionsClassSystem.FACTORY);
 
         this.systemRegistry.unregisterAllSubsystems();
 
@@ -91,25 +89,23 @@ public class BukkitSystemRegistryTest extends BukkitTest {
     }
 
     @Test
-    public void testUnregisterExistingSubsystemMustBeSuccessful() throws Exception {
-        PermissionsClassSystem subsystem = new PermissionsClassSystem();
-        this.systemRegistry.registerSubsystem(subsystem);
-        this.systemRegistry.unregisterSubsystem(subsystem);
+    public void testUnregisterExistingFactoryMustBeSuccessful() throws Exception {
+        this.systemRegistry.registerSubsystem(PermissionsClassSystem.class);
+        this.systemRegistry.unregisterFactory(PermissionsClassSystem.FACTORY);
 
         checkSystemExistence(ClassSystem.class);
     }
 
     @Test
-    public void testUnregisterNotExistingSubsystemMustBeSuccessful() throws Exception {
-        PermissionsClassSystem subsystem = new PermissionsClassSystem();
-        this.systemRegistry.unregisterSubsystem(subsystem);
+    public void testUnregisterNotExistingFactoryMustBeSuccessful() throws Exception {
+        this.systemRegistry.unregisterFactory(PermissionsClassSystem.FACTORY);
 
         checkSystemExistence(ClassSystem.class);
     }
 
-    private <SystemT extends PlayerSystem> void checkSystemExistence(Class<SystemT> systemClass) throws Exception {
+    private <SystemT extends PlayerSystem> void checkSystemExistence(Class<SystemT> systemClass) {
         try {
-            this.systemRegistry.getSystem(systemClass, player);
+            this.systemRegistry.getSystemFactory(systemClass);
         } catch (SystemNotFoundException ignored) {
             return;
         }

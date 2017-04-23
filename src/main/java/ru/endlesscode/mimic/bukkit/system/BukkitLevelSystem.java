@@ -16,11 +16,13 @@
  * along with BukkitMimic.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ru.endlesscode.mimic.system;
+package ru.endlesscode.mimic.bukkit.system;
 
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import ru.endlesscode.mimic.ref.ExistingWeakReference;
+import ru.endlesscode.mimic.api.ref.ExistingWeakReference;
+import ru.endlesscode.mimic.api.system.ExpLevelConverter;
+import ru.endlesscode.mimic.api.system.LevelSystem;
 
 /**
  * @author osipf
@@ -28,43 +30,18 @@ import ru.endlesscode.mimic.ref.ExistingWeakReference;
  */
 public abstract class BukkitLevelSystem extends LevelSystem {
     @SuppressWarnings("WeakerAccess")
-    protected ExistingWeakReference<Player> playerRef;
+    protected final ExistingWeakReference<Player> playerRef;
 
     /**
      * Constructor that initialize converter.
      *
      * @param converter Converter
+     * @param player    The player
      */
-    BukkitLevelSystem(@NotNull ExpLevelConverter converter) {
+    BukkitLevelSystem(@NotNull ExpLevelConverter converter, Player player) {
         super(converter);
-    }
 
-    /**
-     * Initializes and returns copy of current system
-     *
-     * @param args Args for initialization
-     * @return Initialized system copy
-     * @throws CloneNotSupportedException If the object's class does not
-     *                  support the {@code Cloneable} interface.
-     */
-    @Override
-    public @NotNull BukkitLevelSystem initializedCopy(Object... args) throws CloneNotSupportedException {
-        BukkitLevelSystem copy = this.clone();
-        Player player = (Player) args[0];
-        copy.playerRef = new ExistingWeakReference<>(player);
-        return copy;
-    }
-
-    /**
-     * Creates and returns a copy of this object.
-     *
-     * @return Clone of class system
-     * @throws CloneNotSupportedException If the object's class does not
-     *                  support the {@code Cloneable} interface.
-     */
-    @Override
-    protected BukkitLevelSystem clone() throws CloneNotSupportedException {
-        return (BukkitLevelSystem) super.clone();
+        this.playerRef = new ExistingWeakReference<>(player);
     }
 
     /**
