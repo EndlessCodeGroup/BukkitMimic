@@ -21,12 +21,13 @@ package ru.endlesscode.mimic.bukkit;
 import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.endlesscode.mimic.api.system.PlayerSystem;
-import ru.endlesscode.mimic.api.system.SystemFactory;
 import ru.endlesscode.mimic.api.system.registry.SystemNotNeededException;
 import ru.endlesscode.mimic.api.system.registry.SystemNotRegisteredException;
 import ru.endlesscode.mimic.bukkit.system.PermissionsClassSystem;
 import ru.endlesscode.mimic.bukkit.system.VanillaLevelSystem;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -39,6 +40,13 @@ public class BukkitMimic extends JavaPlugin {
     private static Logger log;
 
     private BukkitSystemRegistry systemRegistry;
+
+    /**
+     * All subsystems
+     */
+    private final List<Class<? extends PlayerSystem>> defaultSubsystems = Arrays.asList(
+            VanillaLevelSystem.class, PermissionsClassSystem.class
+    );
 
     @Override
     public void onEnable() {
@@ -54,13 +62,12 @@ public class BukkitMimic extends JavaPlugin {
     }
 
     private void hookDefaultSystems() {
-        this.hookSystem(VanillaLevelSystem.class, VanillaLevelSystem.FACTORY);
-        this.hookSystem(PermissionsClassSystem.class, PermissionsClassSystem.FACTORY);
+        defaultSubsystems.forEach(this::hookSystem);
     }
 
-    private <T extends PlayerSystem> void hookSystem(Class<? extends T> system, SystemFactory<T> factory) {
+    private <T extends PlayerSystem> void hookSystem(Class<? extends T> system) {
         try {
-            this.systemRegistry.registerSubsystem(system, factory);
+            this.systemRegistry.registerSubsystem(system);
         } catch (SystemNotRegisteredException e) {
             log.warning(e.getMessage());
         } catch (SystemNotNeededException ignored) {}
@@ -74,7 +81,7 @@ public class BukkitMimic extends JavaPlugin {
     /**
      * @return Mimic system registry
      */
-    @SuppressWarnings({"WeakerAccess", "unused"})
+    @SuppressWarnings({"unused"})
     public BukkitSystemRegistry getSystemRegistry() {
         return systemRegistry;
     }

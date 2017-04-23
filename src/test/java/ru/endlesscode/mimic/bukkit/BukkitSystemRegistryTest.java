@@ -103,7 +103,7 @@ public class BukkitSystemRegistryTest extends BukkitTestBase {
         checkSystemExistence(ClassSystem.class);
     }
 
-    private <SystemT extends PlayerSystem> void checkSystemExistence(Class<SystemT> systemClass) throws Exception {
+    private <SystemT extends PlayerSystem> void checkSystemExistence(Class<SystemT> systemClass) {
         try {
             this.systemRegistry.getSystemFactory(systemClass);
         } catch (SystemNotFoundException ignored) {
